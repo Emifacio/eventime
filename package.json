@@ -4,14 +4,16 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-   "dev": "nodemon .",
-   "start": "node ."
+    "dev": "nodemon .",
+    "start": "node ."
   },
   "keywords": [],
   "author": "Facio, Gabriel Emiliano",
   "license": "ISC",
   "description": "Servidor de la aplicación que maneja usuarios y eventos",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.19.2",
