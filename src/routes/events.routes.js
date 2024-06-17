@@ -1,16 +1,17 @@
 import { Router } from 'express';
+import { getAllEvents, getEvent, createEvent, updateEvent, deleteEvent } from '../controllers/events.controller.js';
 
 const router = Router();
 
-router.get('/events', (req, res) => res.send({ message: "Obteniendo eventos" }));
+router.get('/events', getAllEvents);
 
-router.get('/events/:id', (req, res) => res.send({ message: "Obteniendo evento único" }));
+router.get('/events/:id', getEvent);
 
-router.post('/events', (req, res) => res.send({ message: "Creando evento" }));
+router.post('/events', createEvent);
 
-router.put('/events/:id', (req, res) => res.send({ message: "Actualizando evento único" }));
+router.put('/events/:id', updateEvent);
 
-router.delete('/events/:id', (req, res) => res.send({ message: "Eliminando evento único" }));
+router.delete('/events/:id', deleteEvent);
 
 
 export default router;

@@ -14,8 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 
 //Routes
 app.get('/', (req, res) => res.json({ message: "Welcome to my API" }));
-app.use(eventRoutes);
-app.use(authRoutes);
+app.use('/api', eventRoutes);
+app.use('/api', authRoutes);
 
 
 
