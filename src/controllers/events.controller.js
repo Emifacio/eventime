@@ -2,7 +2,7 @@ import { pool } from '../db.js';
 
 export const getAllEvents = async (req, res) => {
         console.log(req.userId)
-        const result = await pool.query('SELECT * FROM events');
+        const result = await pool.query('SELECT * FROM events WHERE user_id = $1', [req.userId]);
         console.log(result);
         return res.json(result.rows);
   
@@ -22,8 +22,8 @@ export const createEvent = async (req, res, next) => {
     const { name, description } = req.body;
     //db insert
     try {
-        const result = await pool.query('INSERT INTO events (name, description) VALUES ($1, $2) RETURNING *',
-            [name, description]);
+        const result = await pool.query('INSERT INTO events (name, description, user_id) VALUES ($1, $2, $3) RETURNING *',
+            [name, description, req.userId]);
     
     res.json(result.rows[0]);
     }
