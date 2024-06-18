@@ -6,6 +6,7 @@ import EventsPage from './pages/EventsPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
+import NotFound from './pages/NotFound'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path="/events" element={<EventsPage />} />
       <Route path="/events/new" element={<EventFormPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="*" element={<NotFound />} />
 
 
       
