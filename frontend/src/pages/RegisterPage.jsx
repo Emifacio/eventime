@@ -1,13 +1,27 @@
 import { Input, Button, Card } from "../components/ui"
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 
 
-function RegisterPage() {
-  
-  const { register, handleSubmit } = useForm()
-  const onSubmit = handleSubmit((data) => {
+
+function RegisterPage() {  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const onSubmit = handleSubmit(async(data) => {
     console.log(data)
+   const response = await fetch('http://localhost:3000/api/signup', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+   })
+    const dataSignup = await response.json()
+    console.log(dataSignup)
   });
 
   return (
@@ -18,14 +32,14 @@ function RegisterPage() {
           <Input placeholder="Enter your full name" {...register('name', {
             required: true,
           })} />
-          
+          { errors.name && <span className="text-red-500">Name is required</span>}
           <Input type="email" placeholder="Enter your email" {...register('email', {
           required: true})} />
-          
+          {errors.email && <span className="text-red-500">Email is required</span>}
           <Input type="password" placeholder="Enter your password"  {...register('password', {
             required: true
           })} />
-         
+          {errors.password && <span className="text-red-500">Password is required</span>}
           <Button>Register</Button>
         
       </form>

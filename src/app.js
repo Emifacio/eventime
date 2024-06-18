@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import eventRoutes from './routes/events.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -9,6 +10,7 @@ const app = express();
 
 
 //Middlewares
+app.use(cors());
 app.use(morgan('dev')); 
 app.use(cookieParser());
 app.use(express.json());
