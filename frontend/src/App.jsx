@@ -9,9 +9,13 @@ import ProfilePage from './pages/ProfilePage'
 import NotFound from './pages/NotFound'
 
 
+
+
 function App() {
+  
   return (
-    <Routes>
+   
+      <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -21,10 +25,9 @@ function App() {
       <Route path="/events/new" element={<EventFormPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="*" element={<NotFound />} />
-
-
-      
     </Routes>
+  
+  
      
   )
 }
