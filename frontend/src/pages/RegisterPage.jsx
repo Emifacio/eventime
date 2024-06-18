@@ -14,10 +14,13 @@ function RegisterPage() {
   const onSubmit = handleSubmit(async(data) => {
     console.log(data)
    const response = await fetch('http://localhost:3000/api/signup', {
-      method: 'POST',
+     method: 'POST',
+     credentials: 'include',
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': 'http://localhost:3000/*'
       }
    })
     const dataSignup = await response.json()
