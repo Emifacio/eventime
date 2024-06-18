@@ -1,9 +1,7 @@
-import React from 'react'
-
 function EventFormPage() {
   return (
     <div>
-      
+      EventFormPage
     </div>
   )
 }
