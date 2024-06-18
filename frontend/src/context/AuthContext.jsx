@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
-import { useContext } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState, createContext } from "react";
+import Cookie from "js-cookie";
+import axios from "../api/axios";
+
 
 export const AuthContext = createContext();
 
@@ -18,31 +19,71 @@ export function AuthProvider({ children }) {
     const [errors, setErrors] = useState(null);
 
     const signin = async (data) => {
-        const res = await axios.post('http://localhost:3000/api/signin', data, {
-      withCredentials: true
-      })
+        try{
+        const res = await axios.post('/signin', data)
         console.log(res)
-        setUser(res.data);
-    }
+            setUser(res.data);
+            setIsAuth(true);
+
+            return res.data;
+        } catch (error) {
+            console.log(error)
+            if (Array.isArray(error.response.data)) {
+               return setErrors(error.response.data);
+                
+            }
+                setErrors([error.response.data.message]);
+                console.log(error.response.data.message)
+            }
+        
+        }
+       
 
     const signup = async (data) => {
-        const res = await axios.post('http://localhost:3000/api/signup', data, {
-            withCredentials: true
-        }); 
-        console.log(res.data)
-        setUser(res.data);
-    };
+        try {
+        const res = await axios.post('/signup', data); 
+            setUser(res.data);
+            setIsAuth(true);
+
+            return res.data;
+               } catch (error) {
+            console.log(error)
+            if (Array.isArray(error.response.data)) {
+               return setErrors(error.response.data);
+                
+            }
+                setErrors([error.response.data.message]);
+                console.log(error.response.data.message)
+            }
+        
+        }
+    useEffect(() => {
+        if (Cookie.get('token')) {
+            axios.get('/profile').then((res) => {
+                setUser(res.data);
+                setIsAuth(true);
+                
+            }).catch((err) => {
+                console.log(err);
+                setIsAuth(false);
+                setUser(null);
+            });     
+        }
+    }, []);
         
 
-    return <AuthContext.Provider value={{
+   return (
+    <AuthContext.Provider
+      value={{
         user,
         isAuth,
         errors,
         signup,
         signin
-    }}>
-        {children}
-    </AuthContext.Provider>;
-}
-    
-    export default AuthProvider;
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+ };
+       
