@@ -1,11 +1,13 @@
 CREATE TABLE IF NOT EXISTS `events` (
-  `id` SERIAL PRIMARY KEY,
-  `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `date` date,
-  `time` time,
-  `location` varchar(255),
+  id SERIAL PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  description text NOT NULL,
+  date date,
+  time time,
+  location varchar(255),
 ) 
+
+ALTER TABLE events ADD COLUMN user_id INTEGER REFERENCES users(id);
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -15,3 +17,5 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE users ADD COLUMN gravatar VARCHAR(255);
