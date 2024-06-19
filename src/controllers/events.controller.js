@@ -1,12 +1,10 @@
 import { pool } from '../db.js';
 
 export const getAllEvents = async (req, res) => {
-        console.log(req.userId)
-        const result = await pool.query('SELECT * FROM events WHERE user_id = $1', [req.userId]);
-        console.log(result);
-        return res.json(result.rows);
-  
-}
+       const result = await pool.query('SELECT * FROM events WHERE user_id = $1', [req.userId]);
+       return res.json(result.rows);
+ }
+
 
 export const getEvent = async (req, res) => {
     const result = await pool.query('SELECT * FROM events WHERE id = $1',

@@ -1,11 +1,12 @@
-CREATE TABLE IF NOT EXISTS `events` (
+CREATE TABLE IF NOT EXISTS events (
   id SERIAL PRIMARY KEY,
-  name varchar(255) NOT NULL,
-  description text NOT NULL,
-  date date,
-  time time,
-  location varchar(255),
-) 
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  date DATE,
+  time TIME,
+  location VARCHAR(255)
+);
+
 
 ALTER TABLE events ADD COLUMN user_id INTEGER REFERENCES users(id);
 

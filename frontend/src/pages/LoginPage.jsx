@@ -3,9 +3,6 @@ import { Card, Input, Button, Label, Container } from '../components/ui'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../context/AuthContext'
 
-
-
-
 function LoginPage() {
   
   const { register, handleSubmit } = useForm()
@@ -24,9 +21,8 @@ function LoginPage() {
       <Card>
         {errors && (errors.map(err => (
           <p className="text-red-500 text-center">{err}</p>
-        ))
-        )
-  }
+        )))
+        }
         <h1 className="text-4xl font-bold my-2 text-center">SignIn</h1>
         <form onSubmit={onSubmit}>
           <Label htmlFor="email">Email</Label>
@@ -42,11 +38,7 @@ function LoginPage() {
             <Link to="/register" className="font-bold">
               Register
             </Link>
-          
-          
-          
           </div>
-
       </form>
       </Card>
     </Container>
