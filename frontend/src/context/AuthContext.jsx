@@ -56,7 +56,16 @@ export function AuthProvider({ children }) {
                 console.log(error.response.data.message)
             }
         
-        }
+    }
+    
+    const signout = async () => {
+        await axios.post('/signout');
+        setUser(null);
+        setIsAuth(false);
+    }
+
+
+
     useEffect(() => {
         if (Cookie.get('token')) {
             axios.get('/profile').then((res) => {
@@ -79,7 +88,8 @@ export function AuthProvider({ children }) {
         isAuth,
         errors,
         signup,
-        signin
+        signin,
+        signout
       }}
     >
       {children}

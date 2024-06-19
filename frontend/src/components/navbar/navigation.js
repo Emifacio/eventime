@@ -1,14 +1,13 @@
-export const navigation = [
-    { name: 'Events', path: '/events' },
+export const publicRoutes = [
     { name: 'Login', path: '/login' },
     { name: 'Register', path: '/register' },
-    { name: 'Profile', path: '/profile' },
-    { name: 'About', path: '/about' },
-    { name: 'Edit', path: '/edit' },
-    { name: 'New Event', path: '/event/new' },
-    { name: 'Event', path: '/event/:id' },
+    { name: 'About', path: '/about' }
+]
+
+
+export const privateRoutes = [
+    { name: 'Events', path: '/events' },
+    { name: 'New Event', path: '/events/new' },
     { name: 'Edit Event', path: '/event/:id/edit' },
-    { name: 'Delete Event', path: '/event/:id/delete' },
-    { name: 'Signout', path: '/signout' }
-   
-  ]
+    { name: 'Profile', path: '/profile' },
+ ]

@@ -1,4 +1,4 @@
-import { Input, Button, Card,Label } from "../components/ui"
+import { Input, Button, Card, Label, Container } from "../components/ui"
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ function RegisterPage() {
   });
 
   return (
-    <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+    <Container className="h-[calc(100vh-10rem)] flex items-center justify-center">
       <Card>
           {signupErrors && (signupErrors.map(err => (
           <p className="text-red-500 text-center">{err}</p>
@@ -55,7 +55,7 @@ function RegisterPage() {
       </form>
       </Card>
       
-    </div>
+    </Container>
   )
 }
 

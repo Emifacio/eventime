@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 
 import Navbar from './components/navbar/Navbar';
 import { Container } from './components/ui';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
 
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
@@ -18,21 +20,29 @@ import NotFound from './pages/NotFound'
 
 function App() {
   
+  const { isAuth } = useAuth()
+  console.log(isAuth)
+
   return (
     <>
       <Navbar />
       <Container className="py-5">
-          <Routes>
-      <Route path="/" element={<HomePage />} />
+        <Routes>
+          <Route element={ <ProtectedRoute isAllowed={!isAuth} redirectTo={"/events"}/>}>
+             <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
-
+          </Route>
+   
+          <Route element={<ProtectedRoute isAllowed={isAuth} redirectTo={"/login"}/>}>
       <Route path="/events" element={<EventsPage />} />
       <Route path="/events/new" element={<EventFormPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+          </Route> 
+          
       <Route path="*" element={<NotFound />} />
-    </Routes>
+        </Routes>
       </Container>
      
   </>
