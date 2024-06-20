@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
 
   const signin = async (data) => {
     try {
-      const res = await axios.post('/signin', data);
+      const res = await axios.post("/signin", data);
       setUser(res.data);
       setIsAuth(true);
       setErrors(null);
@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
 
   const signup = async (data) => {
     try {
-      const res = await axios.post('/signup', data);
+      const res = await axios.post("/signup", data);
       setUser(res.data);
       setIsAuth(true);
       setErrors(null);
@@ -51,32 +51,37 @@ export function AuthProvider({ children }) {
   };
 
   const signout = async () => {
-    await axios.post('/signout');
+    await axios.post("/signout");
     setUser(null);
     setIsAuth(false);
   };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      setLoading(true);
-      if (Cookie.get('token')) {
-        try {
-          const res = await axios.get('/profile');
+    setLoading(true);
+    if (Cookie.get("token")) {
+      axios
+        .get("/profile")
+        .then((res) => {
           setUser(res.data);
           setIsAuth(true);
-        } catch (err) {
+        })
+        .catch((err) => {
           setUser(null);
           setIsAuth(false);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    checkAuth();
+        });
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (errors) {
+      const clean = setTimeout(() => {
+        setErrors(null);
+      }, 5000);
+
+      return () => clearTimeout(clean);
+    }
+  }, [errors]);
 
   return (
     <AuthContext.Provider
@@ -87,10 +92,10 @@ export function AuthProvider({ children }) {
         signup,
         signin,
         signout,
-        loading
+        loading,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
+}
