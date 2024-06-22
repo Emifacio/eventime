@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   description text NOT NULL,
   date date,
   time time,
-  location varchar(255),
+  location varchar(255) NOT NULL
 ) 
 
 ALTER TABLE events ADD COLUMN user_id INTEGER REFERENCES users(id);

@@ -2,6 +2,7 @@ import { Card, Input, Button, Label, Container } from "../components/ui";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import { PiSignIn } from "react-icons/pi";
 
 function LoginPage() {
   const {
@@ -24,7 +25,10 @@ function LoginPage() {
           loginErrors.map((err) => (
             <p className="bg-red-500 text-white p-2 text-center">{err}</p>
           ))}
-        <h1 className="text-4xl font-bold my-2 text-center">SignIn</h1>
+        <h1 className="text-4xl font-bold my-2 text-center flex">
+          <PiSignIn className="text-white flex mr-6" />
+          Sign in
+        </h1>
         <form onSubmit={onSubmit}>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -53,7 +57,7 @@ function LoginPage() {
             </p>
           )}
 
-          <Button>SignIn</Button>
+          <Button>Sign in</Button>
           <div className="flex justify-between my-4">
             <p className="mr-3">Don't have an account?</p>
             <Link to="/register" className="font-bold">

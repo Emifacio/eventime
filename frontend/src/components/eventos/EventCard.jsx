@@ -15,6 +15,7 @@ function EventCard({ event }) {
         <p>{event.description}</p>
         <p>{event.date}</p>
         <p>{event.time}</p>
+        <p>{event.location}</p>
       </div>
       <div className="my-2 flex justify-end gap-x-2">
         <Button onClick={() => navigate(`/events/${event.id}/edit`)}>

@@ -17,11 +17,11 @@ export const getEvent = async (req, res) => {
 }
 
 export const createEvent = async (req, res, next) => {
-    const { name, description } = req.body;
+    const { name, description, date, time, location } = req.body;
     //db insert
     try {
-        const result = await pool.query('INSERT INTO events (name, description, user_id) VALUES ($1, $2, $3) RETURNING *',
-            [name, description, req.userId]);
+        const result = await pool.query('INSERT INTO events (name, description, date, time, location, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [name, description, date, time, location, req.userId]);
     
     res.json(result.rows[0]);
     }
@@ -36,9 +36,9 @@ export const createEvent = async (req, res, next) => {
 
 export const updateEvent = async (req, res) => {
     const id = req.params.id;
-    const { name, description } = req.body;
-    const result = await pool.query('UPDATE events SET name = $1, description = $2 WHERE id = $3 RETURNING *',
-        [name, description, id]);
+    const { name, description, date, time, location } = req.body;
+    const result = await pool.query('UPDATE events SET name = $1, description = $2, date = $3, time = $4, location = $5 WHERE id = $6 RETURNING *',
+        [name, description, date, time, location, id]);
     if (result.rowCount === 0) {
         return res.status(404).send({ message: "No existe un evento con ese ID" });
     }

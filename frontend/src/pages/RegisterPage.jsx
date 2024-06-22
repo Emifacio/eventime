@@ -24,7 +24,7 @@ function RegisterPage() {
           signupErrors.map((err) => (
             <p className="bg-red-500 text-white p-2 text-center">{err}</p>
           ))}
-        <h3 className="text-2xl font-bold">Register</h3>
+        <h3 className="text-3xl font-bold my-2 text-center flex">Register</h3>
         <form onSubmit={onSubmit}>
           <Label htmlFor="name">Name</Label>
           <Input
