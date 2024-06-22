@@ -1,8 +1,9 @@
-import { Card, Input, Textarea, Label, Button } from "../components/ui";
-import { set, useForm } from "react-hook-form";
+import { Card, Input, Label, Button } from "../components/ui";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useEvents } from "../context/EventContext";
+import { Textarea } from "../components/ui/Textarea";
 
 function EventFormPage() {
   const {
@@ -79,6 +80,7 @@ function EventFormPage() {
 
           <Label htmlFor="description">Description</Label>
           <Textarea
+            type="text"
             placeholder="Description"
             rows={3}
             {...register("description")}
