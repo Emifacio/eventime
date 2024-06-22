@@ -83,6 +83,7 @@ function EventFormPage() {
             rows={3}
             {...register("description")}
           ></Textarea>
+
           <Label htmlFor="date">date</Label>
           <Input
             type="date"
