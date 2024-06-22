@@ -1,9 +1,8 @@
-import { Card, Input, Label, Button } from "../components/ui";
+import { Card, Input, Label, Button, Textarea } from "../components/ui";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useEvents } from "../context/EventContext";
-import { Textarea } from "../components/ui/Textarea";
 
 function EventFormPage() {
   const {
