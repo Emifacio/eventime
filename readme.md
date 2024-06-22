@@ -1,0 +1,228 @@
+
+"openapi": "3.0.0"
+"info":
+  "title": "Eventime"
+  "version": "1.0.0"
+  "description": "API documentation for Eventime, an event management application that allows users to register, log in, and manage their events."
+"servers":
+  -
+    "url": "http://localhost:5000"
+    "description": "Local server"
+"components":
+  "securitySchemes":
+    "cookieAuth":
+      "type": "apiKey"
+      "in": "cookie"
+      "name": "jwt"
+  "schemas":
+    "User":
+      "type": "object"
+      "properties":
+        "id":
+          "type": "integer"
+        "username":
+          "type": "string"
+        "password":
+          "type": "string"
+    "Event":
+      "type": "object"
+      "properties":
+        "id":
+          "type": "integer"
+        "title":
+          "type": "string"
+        "description":
+          "type": "string"
+        "date":
+          "type": "string"
+          "format": "date-time"
+"paths":
+  "/api/auth/register":
+    "post":
+      "summary": "Register a new user"
+      "requestBody":
+        "required": true
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "properties":
+                "id":
+                  "type": "integer"
+                "username":
+                  "type": "string"
+                "password":
+                  "type": "string"
+      "responses":
+        "201":
+          "description": "User registered successfully"
+        "400":
+          "description": "Invalid input"
+  "/api/auth/login":
+    "post":
+      "summary": "Login a user"
+      "requestBody":
+        "required": true
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "properties":
+                "username":
+                  "type": "string"
+                "password":
+                  "type": "string"
+      "responses":
+        "200":
+          "description": "User logged in successfully"
+          "headers":
+            "Set-Cookie":
+              "schema":
+                "type": "string"
+        "401":
+          "description": "Invalid credentials"
+  "/api/events":
+    "get":
+      "summary": "Get all events"
+      "security":
+        -
+          "cookieAuth": []
+      "responses":
+        "200":
+          "description": "List of events"
+          "content":
+            "application/json":
+              "schema":
+                "type": "array"
+                "items":
+                  "type": "object"
+                  "properties":
+                    "id":
+                      "type": "integer"
+                    "title":
+                      "type": "string"
+                    "description":
+                      "type": "string"
+                    "date":
+                      "type": "string"
+                      "format": "date-time"
+        "401":
+          "description": "Unauthorized"
+    "post":
+      "summary": "Create a new event"
+      "security":
+        -
+          "cookieAuth": []
+      "requestBody":
+        "required": true
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "properties":
+                "id":
+                  "type": "integer"
+                "title":
+                  "type": "string"
+                "description":
+                  "type": "string"
+                "date":
+                  "type": "string"
+                  "format": "date-time"
+      "responses":
+        "201":
+          "description": "Event created successfully"
+        "400":
+          "description": "Invalid input"
+        "401":
+          "description": "Unauthorized"
+  "/api/events/{id}":
+    "get":
+      "summary": "Get an event by ID"
+      "security":
+        -
+          "cookieAuth": []
+      "parameters":
+        -
+          "name": "id"
+          "in": "path"
+          "required": true
+          "schema":
+            "type": "integer"
+      "responses":
+        "200":
+          "description": "Event details"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "id":
+                    "type": "integer"
+                  "title":
+                    "type": "string"
+                  "description":
+                    "type": "string"
+                  "date":
+                    "type": "string"
+                    "format": "date-time"
+        "404":
+          "description": "Event not found"
+        "401":
+          "description": "Unauthorized"
+    "put":
+      "summary": "Update an event"
+      "security":
+        -
+          "cookieAuth": []
+      "parameters":
+        -
+          "name": "id"
+          "in": "path"
+          "required": true
+          "schema":
+            "type": "integer"
+      "requestBody":
+        "required": true
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "properties":
+                "id":
+                  "type": "integer"
+                "title":
+                  "type": "string"
+                "description":
+                  "type": "string"
+                "date":
+                  "type": "string"
+                  "format": "date-time"
+      "responses":
+        "200":
+          "description": "Event updated successfully"
+        "400":
+          "description": "Invalid input"
+        "404":
+          "description": "Event not found"
+        "401":
+          "description": "Unauthorized"
+    "delete":
+      "summary": "Delete an event"
+      "security":
+        -
+          "cookieAuth": []
+      "parameters":
+        -
+          "name": "id"
+          "in": "path"
+          "required": true
+          "schema":
+            "type": "integer"
+      "responses":
+        "204":
+          "description": "Event deleted successfully"
+        "404":
+          "description": "Event not found"
+        "401":
+          "description": "Unauthorized"
