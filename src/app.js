@@ -34,8 +34,4 @@ app.use('/api', authRoutes);
 
 
 
-
-
-
-
 export default app;
