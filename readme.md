@@ -1,228 +1,65 @@
+# Sistema de Gestión de Eventos
 
-"openapi": "3.0.0"
-"info":
-  "title": "Eventime"
-  "version": "1.0.0"
-  "description": "API documentation for Eventime, an event management application that allows users to register, log in, and manage their events."
-"servers":
-  -
-    "url": "http://localhost:5000"
-    "description": "Local server"
-"components":
-  "securitySchemes":
-    "cookieAuth":
-      "type": "apiKey"
-      "in": "cookie"
-      "name": "jwt"
-  "schemas":
-    "User":
-      "type": "object"
-      "properties":
-        "id":
-          "type": "integer"
-        "username":
-          "type": "string"
-        "password":
-          "type": "string"
-    "Event":
-      "type": "object"
-      "properties":
-        "id":
-          "type": "integer"
-        "title":
-          "type": "string"
-        "description":
-          "type": "string"
-        "date":
-          "type": "string"
-          "format": "date-time"
-"paths":
-  "/api/auth/register":
-    "post":
-      "summary": "Register a new user"
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "id":
-                  "type": "integer"
-                "username":
-                  "type": "string"
-                "password":
-                  "type": "string"
-      "responses":
-        "201":
-          "description": "User registered successfully"
-        "400":
-          "description": "Invalid input"
-  "/api/auth/login":
-    "post":
-      "summary": "Login a user"
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "username":
-                  "type": "string"
-                "password":
-                  "type": "string"
-      "responses":
-        "200":
-          "description": "User logged in successfully"
-          "headers":
-            "Set-Cookie":
-              "schema":
-                "type": "string"
-        "401":
-          "description": "Invalid credentials"
-  "/api/events":
-    "get":
-      "summary": "Get all events"
-      "security":
-        -
-          "cookieAuth": []
-      "responses":
-        "200":
-          "description": "List of events"
-          "content":
-            "application/json":
-              "schema":
-                "type": "array"
-                "items":
-                  "type": "object"
-                  "properties":
-                    "id":
-                      "type": "integer"
-                    "title":
-                      "type": "string"
-                    "description":
-                      "type": "string"
-                    "date":
-                      "type": "string"
-                      "format": "date-time"
-        "401":
-          "description": "Unauthorized"
-    "post":
-      "summary": "Create a new event"
-      "security":
-        -
-          "cookieAuth": []
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "id":
-                  "type": "integer"
-                "title":
-                  "type": "string"
-                "description":
-                  "type": "string"
-                "date":
-                  "type": "string"
-                  "format": "date-time"
-      "responses":
-        "201":
-          "description": "Event created successfully"
-        "400":
-          "description": "Invalid input"
-        "401":
-          "description": "Unauthorized"
-  "/api/events/{id}":
-    "get":
-      "summary": "Get an event by ID"
-      "security":
-        -
-          "cookieAuth": []
-      "parameters":
-        -
-          "name": "id"
-          "in": "path"
-          "required": true
-          "schema":
-            "type": "integer"
-      "responses":
-        "200":
-          "description": "Event details"
-          "content":
-            "application/json":
-              "schema":
-                "type": "object"
-                "properties":
-                  "id":
-                    "type": "integer"
-                  "title":
-                    "type": "string"
-                  "description":
-                    "type": "string"
-                  "date":
-                    "type": "string"
-                    "format": "date-time"
-        "404":
-          "description": "Event not found"
-        "401":
-          "description": "Unauthorized"
-    "put":
-      "summary": "Update an event"
-      "security":
-        -
-          "cookieAuth": []
-      "parameters":
-        -
-          "name": "id"
-          "in": "path"
-          "required": true
-          "schema":
-            "type": "integer"
-      "requestBody":
-        "required": true
-        "content":
-          "application/json":
-            "schema":
-              "type": "object"
-              "properties":
-                "id":
-                  "type": "integer"
-                "title":
-                  "type": "string"
-                "description":
-                  "type": "string"
-                "date":
-                  "type": "string"
-                  "format": "date-time"
-      "responses":
-        "200":
-          "description": "Event updated successfully"
-        "400":
-          "description": "Invalid input"
-        "404":
-          "description": "Event not found"
-        "401":
-          "description": "Unauthorized"
-    "delete":
-      "summary": "Delete an event"
-      "security":
-        -
-          "cookieAuth": []
-      "parameters":
-        -
-          "name": "id"
-          "in": "path"
-          "required": true
-          "schema":
-            "type": "integer"
-      "responses":
-        "204":
-          "description": "Event deleted successfully"
-        "404":
-          "description": "Event not found"
-        "401":
-          "description": "Unauthorized"
+## Descripción del Proyecto
+
+El objetivo de este proyecto es desarrollar un sistema básico de gestión de eventos donde los usuarios puedan registrarse, iniciar sesión y gestionar eventos (crear, ver, actualizar y eliminar). El sistema cuenta con una interfaz web (frontend) y una API (backend) que soporta las operaciones necesarias.
+
+## Tecnologías Utilizadas
+
+### Backend
+- **NodeJS** con **Express**
+- **PostgreSQL**
+- **JWT** para autenticación
+
+### Frontend
+- **React** con **VITE** 
+- **Tailwind** para el diseño responsivo
+
+### Otros
+- **Docker** para contenedores
+- **GitHub Actions** (o **Travis CI/CircleCI**) para CI/CD
+-  **Railway** para desplegar el backend
+-  **Vercel** para desplegar el frontend
+
+## Funcionalidades
+
+1. **Registro de Usuario**
+2. **Inicio de Sesión**
+3. **Crear Evento**
+4. **Listar Eventos**
+5. **Actualizar Evento**
+6. **Eliminar Evento**
+7. **Ver Detalles de un Evento**
+
+### Pasos para Configurar el Proyecto
+
+1. Clona el repositorio.
+
+2. ingresa a la carpeta de frontend en la consola y pega este comando:
+
+**npm install next@latest react@latest react-dom@latest**
+
+3. docker compose up --build
+
+4. Ejecuta en el navegador:
+
+**localhost:3000**
+
+   
+
+
+
+## Contribuciones
+
+Si deseas contribuir al proyecto, por favor sigue estos pasos:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza los cambios necesarios y haz commit (`git commit -m 'Agrega nueva funcionalidad'`).
+4. Empuja los cambios a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+
+## Contacto
+
+Si tienes alguna pregunta o sugerencia, por favor contacta a @emifacio en facio.gabrielemiliano@gmail.com.
