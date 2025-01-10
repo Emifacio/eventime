@@ -5,9 +5,8 @@ import cors from 'cors';
 
 import eventRoutes from './routes/events.routes.js';
 import authRoutes from './routes/auth.routes.js';
-import { PORT } from './config.js';
+import { PORT, ORIGIN } from './config.js';
 import { pool } from "./db.js";
-import { ORIGIN } from "./config.js";
 
 const app = express();
 
@@ -36,5 +35,9 @@ app.get("/api/ping", async (req, res) => {
 });
 app.use('/api', eventRoutes);
 app.use('/api', authRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 export default app;
