@@ -9,21 +9,26 @@ import { PORT } from './config.js';
 import { pool } from "./db.js";
 import { ORIGIN } from "./config.js";
 
-
-//const { swaggerDocs: V1SwaggerDocs } = require("./swagger.js");
 const app = express();
 
-
-//Middlewares
+// CORS Middleware
 app.use(cors({
-    origin: ORIGIN,
-    credentials: true}));
-app.use(morgan('dev')); 
+    origin: function (origin, callback) {
+        if (!origin || ORIGIN.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
+app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//Routes
+// Routes
 app.get('/', (req, res) => res.json({ message: "Welcome to my API" }));
 app.get("/api/ping", async (req, res) => {
   const result = await pool.query("SELECT NOW()");
@@ -31,7 +36,5 @@ app.get("/api/ping", async (req, res) => {
 });
 app.use('/api', eventRoutes);
 app.use('/api', authRoutes);
-
-
 
 export default app;
