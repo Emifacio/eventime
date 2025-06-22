@@ -42,10 +42,8 @@ export const updateEvent = async (req, res) => {
     if (result.rowCount === 0) {
         return res.status(404).send({ message: "No existe un evento con ese ID" });
     }
-    res.json(result.rows[0]);
     console.log(result);
-
-    return  res.json(result.rows[0]);
+    return res.json(result.rows[0]);
 }
 
 export const deleteEvent = async(req, res) => {
