@@ -8,6 +8,8 @@ export const PG_DB = process.env.PG_DB || 'railway';
 export const ORIGIN = process.env.ORIGIN || "http://localhost:5173";
 
 export const ALLOWED_ORIGINS = [
-    'https://eventime.vercel.app',
-    'https://eventime-jqfzrmvt2-gabriel-emiliano-facios-projects.vercel.app' // Add your current origin
-  ];
+  'https://eventime.vercel.app',
+  'https://eventime-jqfzrmvt2-gabriel-emiliano-facios-projects.vercel.app'
+];
+
+export const WHITELIST = [ORIGIN, ...ALLOWED_ORIGINS];
