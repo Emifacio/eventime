@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState, createContext, ReactNode } from "react";
-import Cookie from "js-cookie";
 import axios from "../api/axios";
 
 export interface User {
@@ -83,23 +82,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     setLoading(true);
-    if (Cookie.get("token")) {
-      axios
-        .get("/profile")
-        .then((res) => {
-          setUser(res.data);
-          setIsAuth(true);
-        })
-        .catch(() => {
-          setUser(null);
-          setIsAuth(false);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
+    axios
+      .get("/profile")
+      .then((res) => {
+        setUser(res.data);
+        setIsAuth(true);
+      })
+      .catch(() => {
+        setUser(null);
+        setIsAuth(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {

@@ -5,6 +5,8 @@ import { createAccessToken } from '../libs/jwt.js';
 import md5 from 'md5';
 import { CustomRequest } from '../middlewares/auth.middleware.js';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export const signin = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
 
@@ -29,9 +31,9 @@ export const signin = async (req: Request, res: Response): Promise<Response> => 
   const token = await createAccessToken({ id: user.id });
 
   res.cookie("token", token, {
-    // httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
 
@@ -57,9 +59,9 @@ export const signup = async (req: Request, res: Response, next: NextFunction): P
     const token = await createAccessToken({ id: user.id });
 
     res.cookie("token", token, {
-      // httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
