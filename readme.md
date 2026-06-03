@@ -1,65 +1,120 @@
-# Sistema de Gestión de Eventos
+# Eventime - Sistema de Gestión de Eventos
 
-## Descripción del Proyecto
+Este proyecto es una aplicación web full-stack para la gestión de eventos donde los usuarios pueden registrarse, iniciar sesión y realizar operaciones CRUD completas (crear, leer, actualizar y eliminar) sobre sus eventos. 
 
-El objetivo de este proyecto es desarrollar un sistema básico de gestión de eventos donde los usuarios puedan registrarse, iniciar sesión y gestionar eventos (crear, ver, actualizar y eliminar). El sistema cuenta con una interfaz web (frontend) y una API (backend) que soporta las operaciones necesarias.
+El proyecto ha sido completamente migrado a **TypeScript** y utiliza **Prisma ORM** para interactuar con la base de datos de forma segura y automatizada.
 
-## Tecnologías Utilizadas
+---
+
+## 🚀 Tecnologías Utilizadas
 
 ### Backend
-- **NodeJS** con **Express**
-- **PostgreSQL**
-- **JWT** para autenticación
+* **Node.js** & **Express** con **TypeScript**
+* **Prisma ORM** (para migraciones y consultas a la base de datos)
+* **PostgreSQL** como base de datos relacional
+* **JSON Web Token (JWT)** almacenado en cookies seguras (`httpOnly`, `secure`, `sameSite`)
+* **Zod** para la validación de esquemas y tipos de datos
 
 ### Frontend
-- **React** con **VITE** 
-- **Tailwind** para el diseño responsivo
+* **React** con **Vite** y **TypeScript**
+* **Tailwind CSS** para un diseño moderno y responsivo
+* **Axios** para peticiones HTTP
+* **React Router Dom** para la navegación y rutas protegidas
 
-### Otros
-- **Docker** para contenedores
-- **GitHub Actions** (o **Travis CI/CircleCI**) para CI/CD
--  **Railway** para desplegar el backend
--  **Vercel** para desplegar el frontend
+### Despliegue e Infraestructura
+* **Render** para hospedar la API del Backend y la base de datos PostgreSQL
+* **Vercel** para hospedar el Frontend de React
 
-## Funcionalidades
+---
 
-1. **Registro de Usuario**
-2. **Inicio de Sesión**
-3. **Crear Evento**
-4. **Listar Eventos**
-5. **Actualizar Evento**
-6. **Eliminar Evento**
-7. **Ver Detalles de un Evento**
+## 📁 Estructura del Proyecto
 
-### Pasos para Configurar el Proyecto
+El proyecto está organizado como una estructura de monorepositorio sencilla:
+* `src/` — Código fuente de la API (Backend). Configurado en [src/config.ts](file:///c:/Users/Pc/Documents/P.A.R.A.%20Method/PROJECTS(Projectos%20en%20marcha)/Eventime/eventime/src/config.ts).
+* `prisma/` — Esquema de base de datos de Prisma [schema.prisma](file:///c:/Users/Pc/Documents/P.A.R.A.%20Method/PROJECTS(Projectos%20en%20marcha)/Eventime/eventime/prisma/schema.prisma).
+* `frontend/` — Código de la aplicación cliente (React + Vite).
 
-1. Clona el repositorio.
+---
 
-2. ingresa a la carpeta de frontend en la consola y pega este comando:
+## 🛠️ Configuración y Ejecución Local
 
-**npm install next@latest react@latest react-dom@latest**
+### Requisitos Previos
+* **Node.js** (v20 o superior recomendado)
+* **pnpm** (administrador de paquetes recomendado)
+* Una instancia activa de **PostgreSQL** (local o en la nube)
 
-3. docker compose up --build
+### Paso 1: Clonar el repositorio e instalar dependencias
+Instala las dependencias en la raíz del proyecto (backend):
+```bash
+pnpm install
+```
+E instala las dependencias del frontend:
+```bash
+cd frontend
+pnpm install
+cd ..
+```
 
-4. Ejecuta en el navegador:
+### Paso 2: Configurar las variables de entorno
+Crea un archivo `.env` en la raíz del proyecto con la siguiente estructura:
+```env
+DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/eventime?schema=public"
+JWT_SECRET="una_clave_secreta_muy_segura"
+PORT=3000
+ORIGIN="http://localhost:5173"
+```
 
-**localhost:3000**
+Crea un archivo `.env.local` dentro de la carpeta `frontend/` si necesitas configurar la URL de la API:
+```env
+VITE_API_URL="http://localhost:3000/api"
+```
 
-   
+### Paso 3: Sincronizar la Base de Datos
+Genera el cliente de Prisma y crea automáticamente las tablas de la base de datos:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
+### Paso 4: Ejecución en Desarrollo
 
+1. **Iniciar el Backend**:
+   Desde la raíz del proyecto ejecuta:
+   ```bash
+   pnpm run dev
+   ```
+   La API se iniciará en `http://localhost:3000`.
 
-## Contribuciones
+2. **Iniciar el Frontend**:
+   Abre otra pestaña de la terminal, ve a la carpeta `frontend/` y ejecuta:
+   ```bash
+   pnpm run dev
+   ```
+   La aplicación web estará disponible en `http://localhost:5173`.
 
-Si deseas contribuir al proyecto, por favor sigue estos pasos:
+---
 
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza los cambios necesarios y haz commit (`git commit -m 'Agrega nueva funcionalidad'`).
-4. Empuja los cambios a la rama (`git push origin feature/nueva-funcionalidad`).
-5. Abre un Pull Request.
+## 🌍 Despliegue en Producción
 
+### Backend (Render)
+1. Conecta tu repositorio de GitHub a un **Web Service** en Render.
+2. Configura el **Build Command**:
+   ```bash
+   pnpm install --frozen-lockfile && pnpm run build
+   ```
+3. Configura el **Start Command**:
+   ```bash
+   node dist/index.js
+   ```
+4. Agrega las siguientes **Variables de Entorno**:
+   * `DATABASE_URL`: Tu URL interna o externa de la base de datos PostgreSQL.
+   * `JWT_SECRET`: Una firma segura para tus tokens JWT.
+   * `ORIGIN`: La URL de producción de tu frontend (ej: `https://eventime.vercel.app`).
+   * `NODE_ENV`: `production` (esto habilita las cookies seguras `httpOnly`).
 
-## Contacto
-
-Si tienes alguna pregunta o sugerencia, por favor contacta a @emifacio en facio.gabrielemiliano@gmail.com.
+### Frontend (Vercel)
+1. Conecta tu repositorio de GitHub a un nuevo proyecto en Vercel.
+2. Configura el directorio raíz como `frontend`.
+3. Vercel detectará automáticamente que es un proyecto de Vite y configurará los comandos de construcción.
+4. Agrega la variable de entorno:
+   * `VITE_API_URL`: La URL pública de tu API del backend en Render (ej: `https://eventime.onrender.com/api`).
