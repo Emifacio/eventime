@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { pool } from '../db.js';
 import { createAccessToken } from '../libs/jwt.js';
 import md5 from 'md5';

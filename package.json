@@ -14,7 +14,6 @@
   "description": "Servidor de la aplicación que maneja usuarios y eventos",
   "dependencies": {
     "@vercel/speed-insights": "^1.1.0",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -28,8 +27,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/bcryptjs": "^3.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
