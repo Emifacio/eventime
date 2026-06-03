@@ -1,23 +1,23 @@
-CREATE TABLE IF NOT EXISTS `events` (
-  id SERIAL PRIMARY KEY,
-  name varchar(255) NOT NULL,
-  description text NOT NULL,
-  date date,
-  time time,
-  location varchar(255) NOT NULL
-) 
+-- Clean, sequential PostgreSQL schema initialization
 
-ALTER TABLE events ADD COLUMN user_id INTEGER REFERENCES users(id);
--- remove unique from name
-ALTER TABLE events DROP CONSTRAINT events_name_unique;
-
-CREATE TABLE users (
+-- 1. Create 'users' table first
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
+  gravatar VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE users ADD COLUMN gravatar VARCHAR(255);
+-- 2. Create 'events' table referencing 'users'
+CREATE TABLE IF NOT EXISTS events (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  date DATE,
+  time TIME,
+  location VARCHAR(255) NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);

@@ -1,0 +1,16 @@
+import jwt from "jsonwebtoken";
+export const isAuth = (req, res, next) => {
+    const token = req.cookies?.token;
+    if (!token) {
+        return res.status(401).json({ message: "No autorizado" });
+    }
+    jwt.verify(token, "xyz123", (err, decoded) => {
+        if (err || !decoded || typeof decoded === 'string') {
+            return res.status(401).json({ message: "No autorizado" });
+        }
+        req.user = decoded;
+        req.userId = decoded.id;
+        console.log(decoded);
+        next();
+    });
+};
