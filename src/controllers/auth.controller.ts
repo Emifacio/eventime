@@ -1,24 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import { pool } from '../db.js';
+import { prisma } from '../db.js';
 import { createAccessToken } from '../libs/jwt.js';
-import  md5 from 'md5';
+import md5 from 'md5';
 import { CustomRequest } from '../middlewares/auth.middleware.js';
 
 export const signin = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
 
-  const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-    email,
-  ]);
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
 
-  if (result.rowCount === 0) {
+  if (!user) {
     return res.status(400).json({
       message: "El correo no esta registrado",
     });
   }
 
-  const validPassword = await bcrypt.compare(password, result.rows[0].password);
+  const validPassword = await bcrypt.compare(password, user.password);
 
   if (!validPassword) {
     return res.status(400).json({
@@ -26,7 +26,7 @@ export const signin = async (req: Request, res: Response): Promise<Response> => 
     });
   }
 
-  const token = await createAccessToken({ id: result.rows[0].id });
+  const token = await createAccessToken({ id: user.id });
 
   res.cookie("token", token, {
     // httpOnly: true,
@@ -35,7 +35,7 @@ export const signin = async (req: Request, res: Response): Promise<Response> => 
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
 
-  return res.json(result.rows[0]);
+  return res.json(user);
 };
 
 export const signup = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
@@ -45,12 +45,16 @@ export const signup = async (req: Request, res: Response, next: NextFunction): P
     const hashedPassword = await bcrypt.hash(password, 10);
     const gravatar = `https://www.gravatar.com/avatar/${md5(email)}`;
 
-    const result = await pool.query(
-      "INSERT INTO users(name, email, password, gravatar) VALUES($1, $2, $3, $4) Returning *",
-      [name, email, hashedPassword, gravatar]
-    );
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        gravatar,
+      },
+    });
 
-    const token = await createAccessToken({ id: result.rows[0].id });
+    const token = await createAccessToken({ id: user.id });
 
     res.cookie("token", token, {
       // httpOnly: true,
@@ -59,9 +63,10 @@ export const signup = async (req: Request, res: Response, next: NextFunction): P
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-    return res.json(result.rows[0]);
+    return res.json(user);
   } catch (error: any) {
-    if (error.code === "23505") {
+    // Prisma unique constraint violation
+    if (error.code === "P2002") {
       return res.status(400).json({
         message: "El correo ya esta registrado",
       });
@@ -77,6 +82,8 @@ export const signout = (req: Request, res: Response): void => {
 }
 
 export const profile = async (req: CustomRequest, res: Response): Promise<Response> => {
-  const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.userId]);
-  return res.json(result.rows[0]);
-} ;
+  const user = await prisma.user.findUnique({
+    where: { id: Number(req.userId) },
+  });
+  return res.json(user);
+};

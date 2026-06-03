@@ -6,7 +6,7 @@ import cors from 'cors';
 import eventRoutes from './routes/events.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import { PORT } from './config.js';
-import { pool } from './db.js';
+import { prisma } from './db.js';
 import { WHITELIST } from './config.js';
 
 //const { swaggerDocs: V1SwaggerDocs } = require("./swagger.js");
@@ -31,8 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 //Routes
 app.get('/', (req, res) => res.json({ message: 'Welcome to my API' }));
 app.get('/api/ping', async (req, res) => {
-  const result = await pool.query('SELECT NOW()');
-  return res.json(result.rows[0]);
+  await prisma.$queryRaw`SELECT 1`;
+  return res.json({ message: 'pong' });
 });
 app.use('/api', eventRoutes);
 app.use('/api', authRoutes);

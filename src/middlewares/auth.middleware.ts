@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config.js";
 
 export interface CustomRequest extends Request {
     userId?: any;
@@ -12,7 +13,7 @@ export const isAuth = (req: CustomRequest, res: Response, next: NextFunction) =>
         return res.status(401).json({ message: "No autorizado" });
     }
 
-    jwt.verify(token, "xyz123", (err: jwt.VerifyErrors | null, decoded: any) => {
+    jwt.verify(token, JWT_SECRET, (err: jwt.VerifyErrors | null, decoded: any) => {
         if (err || !decoded || typeof decoded === 'string') {
             return res.status(401).json({ message: "No autorizado" });
         }
