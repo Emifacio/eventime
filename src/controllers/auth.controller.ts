@@ -79,7 +79,11 @@ export const signup = async (req: Request, res: Response, next: NextFunction): P
 };
 
 export const signout = (req: Request, res: Response): void => {
-  res.clearCookie('token');
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+  });
   res.sendStatus(200);
 }
 
