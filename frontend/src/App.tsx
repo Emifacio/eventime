@@ -17,8 +17,6 @@ import NotFound from './pages/NotFound';
 function App() {
   const { isAuth, loading } = useAuth();
 
-  if (loading) return <h1>Cargando...</h1>;
-
   return (
     <>
       <Navbar />
@@ -30,7 +28,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Route>
-          <Route element={<ProtectedRoute isAllowed={isAuth} redirectTo="/login" />}>
+          <Route element={<ProtectedRoute isAllowed={isAuth} loading={loading} redirectTo="/login" />}>
             <Route element={<EventProvider><Outlet /></EventProvider>}>
               <Route path="/events" element={<EventsPage />} />
               <Route path="/events/new" element={<EventFormPage />} />
