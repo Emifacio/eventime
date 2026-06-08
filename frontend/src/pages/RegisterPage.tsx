@@ -22,7 +22,7 @@ function RegisterPage() {
       <Card>
         {signupErrors &&
           signupErrors.map((err, i) => (
-            <p key={i} className="bg-red-500 text-white p-2 text-center">{err}</p>
+            <p key={i} className="bg-red-500 text-white p-2 text-center rounded-xl my-2">{err}</p>
           ))}
         <h3 className="text-3xl font-bold my-2 text-center flex">Register</h3>
         <form onSubmit={onSubmit}>
@@ -34,7 +34,7 @@ function RegisterPage() {
             })}
           />
           {errors.name && (
-            <p className="bg-red-500 text-white p-2 text-center">
+            <p className="bg-red-500 text-white p-2 text-center rounded-xl my-2">
               Name is required
             </p>
           )}
@@ -48,7 +48,7 @@ function RegisterPage() {
             })}
           />
           {errors.email && (
-            <p className="bg-red-500 text-white p-2 text-center">
+            <p className="bg-red-500 text-white p-2 text-center rounded-xl my-2">
               Email is required
             </p>
           )}
@@ -62,7 +62,7 @@ function RegisterPage() {
             })}
           />
           {errors.password && (
-            <p className="bg-red-500 text-white p-2 text-center">
+            <p className="bg-red-500 text-white p-2 text-center rounded-xl my-2">
               Password is required
             </p>
           )}

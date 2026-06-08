@@ -23,7 +23,7 @@ function LoginPage() {
       <Card>
         {loginErrors &&
           loginErrors.map((err, i) => (
-            <p key={i} className="bg-red-500 text-white p-2 text-center">{err}</p>
+            <p key={i} className="bg-red-500 text-white p-2 text-center rounded-xl my-2">{err}</p>
           ))}
         <h1 className="text-4xl font-bold my-2 text-center flex">
           <PiSignIn className="text-white flex mr-6" />
@@ -38,7 +38,7 @@ function LoginPage() {
             })}
           />
           {errors.email && (
-            <p className="bg-red-500 text-white p-2 text-center">
+            <p className="bg-red-500 text-white p-2 text-center rounded-xl my-2">
               Email is required
             </p>
           )}
@@ -52,7 +52,7 @@ function LoginPage() {
             })}
           />
           {errors.password && (
-            <p className="bg-red-500 text-white p-2 text-center">
+            <p className="bg-red-500 text-white p-2 text-center rounded-xl my-2">
               Password is required
             </p>
           )}
